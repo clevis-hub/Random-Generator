@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamoulox Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #c749c4, #f0a013);
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            transition: background 2s ease;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px #d854c2, 0 0 20px #d854c2, 0 0 30px #d854c2;
+            z-index: 2;
+            position: relative;
+        }
+
+        #phrase {
+            font-size: 1.8rem;
+            color: #fff;
+            text-align: center;
+            max-width: 80%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            z-index: 2;
+            position: relative;
+            text-shadow: 0 0 8px #d854c2, 0 0 16px #d854c2, 0 0 24px #d854c2;
+        }
+
+        #phrase.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.9;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Kamoulox Machine</h1>
+    <div id="phrase">Clique pour lancer la machine !</div>
+
+    <script>
+        const phrases = [
+            "J'invite un tanche et je doigte un bonhomme de neige.",
+            "Je bois du couscous et je nettoie un paysan.",
+            "Je caresse un pompier et je pue du pull.",
+            "Je déguise un poireau et je me marie avec Philippe Lavil.",
+            "Je barbouille un anglais et je ressemble à Philippe Bouvard.",
+            "Je klaxonne au pressing et j'écoute Organiz.",
+            "Je photocopie du sable et j'achète un hôtel.",
+            "J'invente le lampadaire à voile et je déclare la guerre à la Suisse.",
+            "Je crache sur le lama et je viole un pompier corse.",
+            "Je mange un clown et je bois du jus de chaussette.",
+            "J'amadoue Mariam et je jette Mamie dans les orties en case poulpe moldave.",
+            "Je pêche un tire-fesse et je m'habille comme Tex.",
+            "Je démonte une poule et j'envoie un fax à Noël Mamère.",
+            "Je me met la main dans le fion et je cours derrière le chien.",
+            "Je rabote un sans-papiers et je tête Sandy Valentino.",
+            "Je mange une soutane et je tutoie David Charvet.",
+            "Je mange mon slip et je roule en Safrane.",
+            "Je vais à la bibliothèque et je m'auto-suce.",
+            "J'épluche un château fort et je dépouille Francis Lalanne.",
+            "Je savonne un scout et je suce une famille esquimaux.",
+            "Le sulfate de charbon préconise de dévorer la mini frange de David Copperfield.",
+            "La sédentarité du pôle d'hémoglobine métabolique régurgite l'étendue globale de la calvitie de Paris Hilton.",
+            "J'emmène un aveugle dans une maison close et retire les selles des vélos d'un couvent espagnol.",
+            "Je promène un furet et je mange des glaces sans sucre.",
+            "Je remboure frénétiquement une sardine au furilax et je cuis un pluviomètre à la moutarde.",
+            "Je photocopie du sable et j'achète un hôtel.",
+            "Je tracte une poule et saute en transversale.",
+            "J'embrasse Mamie Nova et surligne une page de Paris Match.",
+            "Je parle breton et bois de la téquila à la goyave",
+            "Je taille une gomme et bourre un nounours.",
+            "J'invente une planète et flatule sur ta grand-mère.",
+            "J'écris un titre putaclic et mange des followers.",
+            "Je prends une quiche et mange un selfie.",
+            "Je badigeonne mes oreilles de miel et chante la Macarena en roumain.",
+            "J'écris 56 répliques et je recomptes et j'en trouve 33 mais je ne corrige pas...",
+            "Je ponce mon dentier et je maroufle ma belle-mère.",
+            "Je mets une jupe-culotte et je doigte un passant.",
+            "Je fume un néon et je saute sur Olivier Mine.",
+            "Je pédale sur un sumo et j'embrasse Sofia Loren sur le cul.",
+            "Je contre et je porte une gourmette en pull.",
+            "Vous êtes marié ? Non, je conduis avec des gants.",
+            "Impossible, il y a les frères Taloche qui matent un porno en diagonale.",
+            "Vous ne pouvez pas, il y a Mariah Carey qui se rase la langue en opposition.",
+            "Je farcie un scout et je parfume un dos-d'âne.",
+            "Bien joué, vous garnissez votre salopette de 5 jetons.",
+            "Je badigeonne Christian Clavier d'huile solaire, et je compte jusqu'à cent.",
+            "Je mets un survêtement et j'apprends le kung fu à Lionel Jospin.",
+            "Vous êtes marié ? Non, j'ai un paillasson welcome.",
+            "Je m'introduis chez Dark Vador et je mets du munster dans son casque.",
+            "Je mange une soutane et je tutoie David Charvet.",
+            "Vous êtes marié ? Non, je mets le parfum à Johnny.",
+            "Vous êtes marié ? Non, je suis fan de Jean-Luc Lahaye.",
+            "Je contredis Winnie l'Ourson et je rhabille Jean-Luc Reichmann.",
+            "Je prends mon voisin par le coude et je décolle sur le dos d'un pangolin",
+            "Je jette le puit vide dans l'œil du géranium et je coupe du bois avec ma barbe"
+
+        ];
+
+        const emojis = ["😎","🤪","🐙","🛸","🍕","👽","🎩","💥","🔥","🌈","🍔","🦄","🥳","🤡",
+        "💀","🔞","🧠","🍿","🦖","🐢","🐧","🐸","🦑","🐒","🐓","🐑","🍟","🌭","🍿","🥐","🥖",
+        "🥓","🥩","🥗","🕺","💃","👑","🧙‍♂️","🧟‍♂️","🔮","🧩","🎯","🪀","🪁"];
+
+        const phraseEl = document.getElementById("phrase");
+
+        function generate() {
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            phraseEl.classList.remove("show");
+            setTimeout(() => {
+                phraseEl.textContent = randomPhrase;
+                phraseEl.classList.add("show");
+            }, 200);
+
+            document.querySelectorAll(".emoji").forEach(e => e.remove());
+
+            for (let i = 0; i < 20; i++) {
+                const emojiEl = document.createElement("div");
+                emojiEl.className = "emoji";
+                emojiEl.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emojiEl.style.left = `${Math.random() * window.innerWidth}px`;
+                emojiEl.style.top = `${Math.random() * window.innerHeight}px`;
+                emojiEl.style.fontSize = `${Math.random() * 70 + 50}px`;
+                document.body.appendChild(emojiEl);
+
+                let dx = (Math.random() - 0.5) * 2;
+                let dy = (Math.random() - 0.5) * 2;
+
+                function move() {
+                    let left = parseFloat(emojiEl.style.left);
+                    let top = parseFloat(emojiEl.style.top);
+
+                    left += dx;
+                    top += dy;
+
+                    if (left < 0 || left + emojiEl.offsetWidth > window.innerWidth) dx = -dx;
+                    if (top < 0 || top + emojiEl.offsetHeight > window.innerHeight) dy = -dy;
+
+                    emojiEl.style.left = `${left}px`;
+                    emojiEl.style.top = `${top}px`;
+
+                    requestAnimationFrame(move);
+                }
+                move();
+            }
+
+        }
+
+        document.body.addEventListener("click", generate);
+
+        generate();
+    </script>
+</body>
+
+</html>
